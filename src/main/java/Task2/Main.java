@@ -3,24 +3,15 @@ package Task2;
 public class Main {
     public static void main(String[] args) throws InterruptedException {
         Tax tax = new Tax();
-        Shop shop1 = new Shop();
-        Shop shop2 = new Shop();
-        Shop shop3 = new Shop();
+        Shop shop1 = new Shop(tax);
+        Shop shop2 = new Shop(tax);
+        Shop shop3 = new Shop(tax);
 
-        Thread thread1 = new Thread(() -> {
-            long sum = shop1.calcAllPrice();
-            tax.addSum(sum);
-        });
+        Thread thread1 = new Thread(shop1::sendReport);
 
-        Thread thread2 = new Thread(() -> {
-            long sum = shop2.calcAllPrice();
-            tax.addSum(sum);
-        });
+        Thread thread2 = new Thread(shop2::sendReport);
 
-        Thread thread3 = new Thread(() -> {
-            long sum = shop3.calcAllPrice();
-            tax.addSum(sum);
-        });
+        Thread thread3 = new Thread(shop3::sendReport);
 
         thread1.start();
         thread2.start();
